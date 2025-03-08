@@ -1,3 +1,17 @@
+# Expense Tracker App
+This app helps me and my wife track our expenses efficiently. Built with React, Vite, and Firestore. 
+
+Hope you have a great day with your wife! 😊
+
+# Development Guide
+## Git `commit` message rules
+- Install some package like `npm install foo` then: "Install foo package"
+- Add some features or updates then: "Add some features"
+- Change something already built: "Change a to b"
+- Remove something: "Remove variable myVar"
+
+Let me know if there's someting better ^_^
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

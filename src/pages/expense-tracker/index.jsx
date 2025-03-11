@@ -1,16 +1,21 @@
+import { useState } from "react";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
 
-  const onSubmit = (e) =>{
+  const [description, setDescription] = useState("");
+  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionType, setTransactionType] = useState("expense");
+
+  const onSubmit = (e) => {
     e.preventDefault();
     addTransaction({
       description: "Haircut",
       transactionAmount: 220,
-      transactionType: "expense"
+      transactionType: "expense",
     });
-  }
+  };
 
   return (
     <>
@@ -28,16 +33,34 @@ export const ExpenseTracker = () => {
             </div>
           </div>
           <form className="add-transaction" onSubmit={onSubmit}>
-            <input type="text" placeholder="Description" required />
-            <input type="number" placeholder="Amount" required />
-            <input type="radio" id="expense" value="expense" />
+            <input
+              type="text"
+              placeholder="Description"
+              required
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Amount"
+              required
+              onChange={(e) => setTransactionAmount(e.target.value)}
+            />
+            <input
+              type="radio"
+              id="expense"
+              value="expense"
+              onChange={(e) => setTransactionType(e.target.value)}
+            />
             <label htmlFor="expense">Expense</label>
-            <input type="radio" id="income" value="expense" />
+            <input
+              type="radio"
+              id="income"
+              value="expense"
+              onChange={(e) => setTransactionType(e.target.value)}
+            />
             <label htmlFor="income">Income</label>
 
-            <button type="submit">
-              Add transaction
-            </button>
+            <button type="submit">Add transaction</button>
           </form>
         </div>
       </div>

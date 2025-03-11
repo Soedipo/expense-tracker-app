@@ -11,9 +11,9 @@ export const ExpenseTracker = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     addTransaction({
-      description: "Haircut",
-      transactionAmount: 220,
-      transactionType: "expense",
+      description,
+      transactionAmount,
+      transactionType,
     });
   };
 
@@ -49,13 +49,15 @@ export const ExpenseTracker = () => {
               type="radio"
               id="expense"
               value="expense"
+              checked={transactionType === "expense"}
               onChange={(e) => setTransactionType(e.target.value)}
             />
             <label htmlFor="expense">Expense</label>
             <input
               type="radio"
               id="income"
-              value="expense"
+              value="income"
+              checked={transactionType === "income"}
               onChange={(e) => setTransactionType(e.target.value)}
             />
             <label htmlFor="income">Income</label>

@@ -21,69 +21,104 @@ export const ExpenseTracker = () => {
 
   return (
     <>
-      <div className="expense-tracker">
-        <div className="container">
-          <h1 className="text-lg font-bold">Expense Tracker</h1>
-          <div className="balance">
-            <h3>Your Balance</h3>
-            <h2>$191.00</h2>
-          </div>
-          <div className="summary">
-            <div className="income">
-              <h4>Income</h4>
-              <p>$200.00</p>
+      <h1 className="text-3xl font-bold text-center mb-6">Expense Tracker</h1>
+
+      <div className="expense-tracker flex flex-col items-center gap-6 px-4">
+        {/* Balance & Summary */}
+        <div className="info-container flex flex-col items-center w-full max-w-3xl">
+          <div className="flex justify-center gap-6 w-full">
+            <div className="balance bg-white shadow-md rounded-lg w-full max-w-sm p-4 text-center">
+              <h3 className="text-lg font-semibold text-gray-700">Your Balance</h3>
+              <h2 className="text-2xl font-bold text-green-600">$191.00</h2>
+            </div>
+            <div className="summary bg-white shadow-md rounded-lg w-full max-w-sm p-4 text-center">
+              <div className="income">
+                <h3 className="text-lg font-semibold text-gray-700">Income</h3>
+                <p className="text-xl font-bold text-green-500">$200.00</p>
+              </div>
             </div>
           </div>
-          <form className="add-transaction" onSubmit={onSubmit}>
+        </div>
+
+        {/* Form */}
+        <div className="transactions w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+          <form className="add-transaction flex flex-col gap-4 mb-6" onSubmit={onSubmit}>
             <input
               type="text"
               placeholder="Description"
               required
+              className="p-2 border rounded w-full"
               onChange={(e) => setDescription(e.target.value)}
             />
             <input
               type="number"
               placeholder="Amount"
               required
+              className="p-2 border rounded w-full"
               onChange={(e) => setTransactionAmount(e.target.value)}
             />
-            <input
-              type="radio"
-              id="expense"
-              value="expense"
-              checked={transactionType === "expense"}
-              onChange={(e) => setTransactionType(e.target.value)}
-            />
-            <label htmlFor="expense">Expense</label>
-            <input
-              type="radio"
-              id="income"
-              value="income"
-              checked={transactionType === "income"}
-              onChange={(e) => setTransactionType(e.target.value)}
-            />
-            <label htmlFor="income">Income</label>
-
-            <button type="submit">Add transaction</button>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  id="expense"
+                  value="expense"
+                  checked={transactionType === "expense"}
+                  onChange={(e) => setTransactionType(e.target.value)}
+                />
+                Expense
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  id="income"
+                  value="income"
+                  checked={transactionType === "income"}
+                  onChange={(e) => setTransactionType(e.target.value)}
+                />
+                Income
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
+            >
+              Add Transaction
+            </button>
           </form>
+
+          {/* Table */}
+          <h3 className="text-xl font-semibold mb-4">Transactions</h3>
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-4 py-2 border-b font-semibold">Description</th>
+                  <th className="px-4 py-2 border-b font-semibold">Amount</th>
+                  <th className="px-4 py-2 border-b font-semibold">Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map((transaction, index) => {
+                  const { description, transactionAmount, transactionType } = transaction;
+                  return (
+                    <tr key={index} className="hover:bg-gray-50 transition">
+                      <td className="px-4 py-2 border-b">{description}</td>
+                      <td className="px-4 py-2 border-b text-green-600 font-medium">${transactionAmount}</td>
+                      <td
+                        className={`px-4 py-2 border-b ${
+                          transactionType === "income" ? "text-green-500" : "text-red-500"
+                        } font-medium`}
+                      >
+                        {transactionType}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      <div className="transactions">
-        <h3>Transactions</h3>
-        <ul>
-          {transactions.map((transaction) => {
-            const { description, transactionAmount, transactionType } =
-              transaction;
-            return (
-              <li>
-                <h4>{description}</h4>
-                <p>
-                  ${transactionAmount} • <label>{transactionType}</label>
-                </p>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </>
   );

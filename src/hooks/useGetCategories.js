@@ -7,7 +7,6 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../config/firebase-config";
-import { useGetUserInfo } from "./useGetUserInfo";
 
 export const useGetCategories = () => {
   const [categories, setCategories] = useState([]);

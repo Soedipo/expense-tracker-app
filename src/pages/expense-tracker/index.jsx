@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
+import { useGetCategories } from "../../hooks/useGetCategories";
+import { TransactionList } from "../components/TransactionList";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   const { transactions } = useGetTransactions();
+  const { categories } = useGetCategories();
 
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
@@ -28,7 +31,7 @@ export const ExpenseTracker = () => {
         <div className="info-container flex flex-col items-center w-full max-w-3xl">
           <div className="flex justify-center gap-6 w-full">
             <div className="balance bg-white shadow-md rounded-lg w-full max-w-sm p-4 text-center">
-              <h3 className="text-lg font-semibold text-gray-700">Your Balance</h3>
+              <h3 className="text-lg font-semibold text-gray-700">Current Balance</h3>
               <h2 className="text-2xl font-bold text-green-600">$191.00</h2>
             </div>
             <div className="summary bg-white shadow-md rounded-lg w-full max-w-sm p-4 text-center">
@@ -93,6 +96,7 @@ export const ExpenseTracker = () => {
             <table className="table-auto w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-100">
+                  <th className="px-4 py-2 border-b font-semibold"></th>
                   <th className="px-4 py-2 border-b font-semibold">Description</th>
                   <th className="px-4 py-2 border-b font-semibold">Amount</th>
                   <th className="px-4 py-2 border-b font-semibold">Type</th>
@@ -102,17 +106,12 @@ export const ExpenseTracker = () => {
                 {transactions.map((transaction, index) => {
                   const { description, transactionAmount, transactionType } = transaction;
                   return (
-                    <tr key={index} className="hover:bg-gray-50 transition">
-                      <td className="px-4 py-2 border-b">{description}</td>
-                      <td className="px-4 py-2 border-b text-green-600 font-medium">${transactionAmount}</td>
-                      <td
-                        className={`px-4 py-2 border-b ${
-                          transactionType === "income" ? "text-green-500" : "text-red-500"
-                        } font-medium`}
-                      >
-                        {transactionType}
-                      </td>
-                    </tr>
+                    <TransactionList
+                      index={index}
+                      description={description}
+                      transactionAmount={transactionAmount}
+                      transactionType={transactionType}
+                    />
                   );
                 })}
               </tbody>

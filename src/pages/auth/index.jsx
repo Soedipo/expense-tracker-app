@@ -14,7 +14,7 @@ export const Auth = () => {
       isAuth: true,
     };
     localStorage.setItem("auth", JSON.stringify(authInfo));
-    navigate("/expense-tracker");
+    navigate("/transaction");
   };
   return (
     <div className="flex flex-col justify-center">

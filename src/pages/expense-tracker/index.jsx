@@ -71,40 +71,44 @@ export const ExpenseTracker = () => {
                   <table className="table-auto w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-zinc-800 text-white">
+                        <th className="px-4 py-2 border-b font-semibold"></th>
+                        <th className="px-4 py-2 border-b font-semibold"></th>
                         <th className="px-4 py-2 border-b font-semibold">Description</th>
                         <th className="px-4 py-2 border-b font-semibold">Amount</th>
                         <th className="px-4 py-2 border-b font-semibold">Type</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <td className="px-4 border-b">
-                        <Input
-                          type="text"
-                          placeholder="Description"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                        />
-                      </td>
-                      <td className="px-4 border-b text-green-600 font-medium">
-                        <Input
-                          type="number"
-                          placeholder="Amount"
-                          value={transactionAmount}
-                          onChange={(e) => setTransactionAmount(e.target.value)}
-                        />
-                      </td>
-                      <td className="px-4 border-b text-green-600 font-medium">
-                        <select
-                          className={`p-1 m-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
-                            transactionType === "income" ? "text-green-700" : "text-red-700"
-                          } text-white placeholder-gray-400`}
-                          value={transactionType}
-                          onChange={(e) => setTransactionType(e.target.value)}
-                        >
-                          <option value="expense">Expense</option>
-                          <option value="income">Income</option>
-                        </select>
-                      </td>
+                      <tr>
+                        <td className="px-4 border-b">
+                          <Input
+                            type="text"
+                            placeholder="Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                          />
+                        </td>
+                        <td className="px-4 border-b text-green-600 font-medium">
+                          <Input
+                            type="number"
+                            placeholder="Amount"
+                            value={transactionAmount}
+                            onChange={(e) => setTransactionAmount(e.target.value)}
+                          />
+                        </td>
+                        <td className="px-4 border-b text-green-600 font-medium">
+                          <select
+                            className={`p-1 m-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
+                              transactionType === "income" ? "text-green-700" : "text-red-700"
+                            } text-white placeholder-gray-400`}
+                            value={transactionType}
+                            onChange={(e) => setTransactionType(e.target.value)}
+                          >
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                          </select>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                   <div className="flex justify-end gap-4">
@@ -124,22 +128,30 @@ export const ExpenseTracker = () => {
                 </form>
               </div>
             )}
-            <table className="table-auto w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-zinc-800 text-white">
-                  <th className="px-4 py-2 border-b font-semibold"></th>
-                  <th className="px-4 py-2 border-b font-semibold"></th>
-                  <th className="px-4 py-2 border-b font-semibold">Description</th>
-                  <th className="px-4 py-2 border-b font-semibold">Amount</th>
-                  <th className="px-4 py-2 border-b font-semibold">Type</th>
-                </tr>
-              </thead>
-              <tbody>
+
+            <div className="w-full text-left border-collapse">
+              <div className="thead">
+                <div className="tr flex">
+                  <div className="th w-1/12 px-4 py-2 border-b font-semibold"></div>
+                  <div className="th w-2/12 px-4 py-2 border-b font-semibold"></div>
+                  <div className="th w-3/12 px-4 py-2 border-b font-semibold">Description</div>
+                  <div className="th w-3/12 px-4 py-2 border-b font-semibold">Amount</div>
+                  <div className="th w-3/12 px-4 py-2 border-b font-semibold">Type</div>
+                </div>
+              </div>
+              <div className="tbody">
                 {transactions.map((transaction, index) => (
                   <TransactionList index={index} transaction={transaction} />
                 ))}
-              </tbody>
-            </table>
+                <div className="tr flex">
+                  <div className="td w-1/12 px-4 py-2 border-b"></div>
+                  <div className="td w-2/12 px-4 py-2 border-b"></div>
+                  <div className="td w-3/12 px-4 py-2 border-b">abd</div>
+                  <div className="td w-3/12 px-4 py-2 border-b">200</div>
+                  <div className="td w-3/12 px-4 py-2 border-b">expense</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-export const TransactionList = ({ index, description, transactionAmount, transactionType }) => {
+export const TransactionList = ({ index, transaction }) => {
+  const { description, transactionAmount, transactionType } = transaction;
+  
   return (
     <tr
       key={index}
-      className={`${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"} hover:bg-zinc-700 transition text-white`}
+      className={`${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"} transition text-white`}
     >
       <td className="px-4 py-2 border-b">
         <input

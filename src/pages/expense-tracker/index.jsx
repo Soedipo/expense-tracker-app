@@ -3,6 +3,9 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetCategories } from "../../hooks/useGetCategories";
 import { TransactionList } from "../components/TransactionList";
+import { Input } from "../components/Input";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
@@ -12,6 +15,7 @@ export const ExpenseTracker = () => {
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
   const [transactionType, setTransactionType] = useState("expense");
+  const [showTransactionForm, setShowTransactionForm] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +24,10 @@ export const ExpenseTracker = () => {
       transactionAmount,
       transactionType,
     });
+  };
+
+  const onAddTransaction = () => {
+    setShowTransactionForm(!showTransactionForm);
   };
 
   return (
@@ -43,58 +51,79 @@ export const ExpenseTracker = () => {
           </div>
         </div>
 
-        {/* Form */}
         <div className="transactions w-full max-w-3xl bg-zinc-800 shadow-md rounded-lg p-6">
-          <form className="add-transaction flex flex-col gap-4 mb-6" onSubmit={onSubmit}>
-            <input
-              type="text"
-              placeholder="Description"
-              required
-              className="p-2 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-zinc-500"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Amount"
-              required
-              className="p-2 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-zinc-500"
-              onChange={(e) => setTransactionAmount(e.target.value)}
-            />
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="expense"
-                  value="expense"
-                  checked={transactionType === "expense"}
-                  onChange={(e) => setTransactionType(e.target.value)}
-                  className="p-2 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
-                />
-                Expense
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="income"
-                  value="income"
-                  checked={transactionType === "income"}
-                  onChange={(e) => setTransactionType(e.target.value)}
-                  className="p-2 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
-                />
-                Income
-              </label>
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
-            >
-              Add Transaction
-            </button>
-          </form>
-
           {/* Table */}
-          <h3 className="text-xl font-semibold mb-4 text-zinc-300">Transactions</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold text-zinc-300">Transaction List</h3>
+            <button
+              className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition flex items-center gap-2"
+              onClick={!showTransactionForm ? onAddTransaction : false}
+            >
+              <FontAwesomeIcon icon={faAdd} />
+              <span className="text-zinc-300"> Add Transaction</span>
+            </button>
+          </div>
           <div className="overflow-x-auto">
+            {/* Form */}
+            {showTransactionForm && (
+              <div>
+                <form className="add-transaction flex flex-col gap-4 mb-6" onSubmit={onSubmit}>
+                  <table className="table-auto w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-zinc-800 text-white">
+                        <th className="px-4 py-2 border-b font-semibold">Description</th>
+                        <th className="px-4 py-2 border-b font-semibold">Amount</th>
+                        <th className="px-4 py-2 border-b font-semibold">Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <td className="px-4 border-b">
+                        <Input
+                          type="text"
+                          placeholder="Description"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                      </td>
+                      <td className="px-4 border-b text-green-600 font-medium">
+                        <Input
+                          type="number"
+                          placeholder="Amount"
+                          value={transactionAmount}
+                          onChange={(e) => setTransactionAmount(e.target.value)}
+                        />
+                      </td>
+                      <td className="px-4 border-b text-green-600 font-medium">
+                        <select
+                          className={`p-1 m-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
+                            transactionType === "income" ? "text-green-700" : "text-red-700"
+                          } text-white placeholder-gray-400`}
+                          value={transactionType}
+                          onChange={(e) => setTransactionType(e.target.value)}
+                        >
+                          <option value="expense">Expense</option>
+                          <option value="income">Income</option>
+                        </select>
+                      </td>
+                    </tbody>
+                  </table>
+                  <div className="flex justify-end gap-4">
+                    <button
+                      type="submit"
+                      className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
+                    >
+                      Add
+                    </button>
+                    <button
+                      className="bg-red-600 text-white font-semibold py-2 px-4 rounded hover:bg-red-700 transition"
+                      onClick={onAddTransaction}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
             <table className="table-auto w-full text-left border-collapse">
               <thead>
                 <tr className="bg-zinc-800 text-white">
@@ -106,17 +135,9 @@ export const ExpenseTracker = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction, index) => {
-                  const { description, transactionAmount, transactionType } = transaction;
-                  return (
-                    <TransactionList
-                      index={index}
-                      description={description}
-                      transactionAmount={transactionAmount}
-                      transactionType={transactionType}
-                    />
-                  );
-                })}
+                {transactions.map((transaction, index) => (
+                  <TransactionList index={index} transaction={transaction} />
+                ))}
               </tbody>
             </table>
           </div>

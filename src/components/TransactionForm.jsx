@@ -45,7 +45,9 @@ export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransactio
             type="number"
             placeholder="Amount"
             value={transactionAmount}
-            onChange={(e) => onChange("transactionAmount", parseFloat(e.target.value))}
+            onChange={(e) =>
+              onChange("transactionAmount", parseFloat(e.target.value) === null ? 0 : parseFloat(e.target.value))
+            }
           />
         </div>
         <div className="w-1/12 px-4 py-2 border-b">

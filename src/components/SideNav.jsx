@@ -4,13 +4,19 @@ export const SideNav = () => {
       <h2 className="text-xl font-bold mb-4">Expense Tracker</h2>
       <ul className="flex flex-col gap-2">
         <li className="hover:bg-zinc-700 p-2 rounded">
+          <a href="#reports">Reports</a>
+        </li>
+        <li className="hover:bg-zinc-700 p-2 rounded">
           <a href="#transactions">Transactions</a>
         </li>
         <li className="hover:bg-zinc-700 p-2 rounded">
-          <a href="#categories">Categories</a>
+          <a href="#transactions">Budgets</a>
         </li>
         <li className="hover:bg-zinc-700 p-2 rounded">
-          <a href="#reports">Reports</a>
+          <a href="#transactions">Accounts</a>
+        </li>
+        <li className="hover:bg-zinc-700 p-2 rounded">
+          <a href="#categories">Categories</a>
         </li>
         <li className="hover:bg-zinc-700 p-2 rounded">
           <a href="#settings">Settings</a>

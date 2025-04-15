@@ -14,7 +14,7 @@ export const useAddTransaction = () => {
     await addDoc(transactionCollectionRef, {
       userID: userID,
       description: description,
-      transactionAmount: transactionAmount,
+      transactionAmount: parseInt(transactionAmount),
       transactionType: transactionType,
       createdAt: serverTimestamp(),
     });

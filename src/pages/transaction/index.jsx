@@ -36,6 +36,14 @@ export const ExpenseTracker = () => {
     setTransactionType("expense");
   };
 
+  const currentBalance = transactions.reduce((acc, transaction) => {
+    return acc + (transaction.transactionType === "income" ? transaction.transactionAmount : -transaction.transactionAmount);
+  }, 0);
+
+  const income = transactions.reduce((acc, transaction) => {
+    return acc + (transaction.transactionType === "income" ? transaction.transactionAmount : 0);
+  }, 0);
+
   return (
     <>
       <div className="flex bg-zinc-900 min-h-screen">
@@ -48,18 +56,18 @@ export const ExpenseTracker = () => {
             <div className="flex justify-center gap-6 w-full">
               <div className="balance bg-zinc-800 shadow-md rounded-lg w-full max-w-sm p-4 text-center">
                 <h3 className="text-lg font-semibold text-zinc-300">Current Balance</h3>
-                <h2 className="text-2xl font-bold text-green-600">$191.00</h2>
+                <h2 className="text-2xl font-bold text-green-600">${currentBalance}</h2>
               </div>
               <div className="summary bg-zinc-800 shadow-md rounded-lg w-full max-w-sm p-4 text-center">
                 <div className="income">
                   <h3 className="text-lg font-semibold text-zinc-300">Income</h3>
-                  <p className="text-xl font-bold text-green-500">$200.00</p>
+                  <p className="text-xl font-bold text-green-500">${income}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="transactions w-full max-w-3xl bg-zinc-800 shadow-md rounded-lg p-6">
+          <div className="transactions w-full bg-zinc-800 shadow-md rounded-lg p-6">
             {/* Table */}
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-semibold text-zinc-300">Transaction List</h3>
@@ -77,10 +85,10 @@ export const ExpenseTracker = () => {
                 <div>
                   <div className="flex">
                     <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
-                    <div className="w-2/12 px-4 py-2 border-b font-semibold"></div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold">Description</div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold">Amount</div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold">Type</div>
+                    <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
+                    <div className="w-7/12 px-4 py-2 border-b font-semibold">Description</div>
+                    <div className="w-2/12 px-4 py-2 border-b font-semibold">Amount</div>
+                    <div className="w-1/12 px-4 py-2 border-b font-semibold">Type</div>
                   </div>
                 </div>
                 <div>

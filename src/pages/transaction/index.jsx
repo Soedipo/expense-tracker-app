@@ -8,39 +8,57 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 import { TransactionForm } from "../../components/TransactionForm";
 import { SideNav } from "../../components/SideNav";
+import { useReducer } from "react";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   const { transactions } = useGetTransactions();
   const { categories } = useGetCategories();
-
-  const [description, setDescription] = useState("");
-  const [transactionAmount, setTransactionAmount] = useState(0);
-  const [transactionCategory, setTransactionCategory] = useState("");
-  const [transactionType, setTransactionType] = useState("expense");
   const [showTransactionForm, setShowTransactionForm] = useState(false);
 
-  const onSubmit = (e) => {
+  const initialState = {
+    description: "",
+    transactionAmount: null,
+    transactionCategory: "",
+    transactionType: "expense",
+  };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "SET_FIELD":
+        return {
+          ...state,
+          [action.field]: action.value,
+        };
+      case "RESET":
+        return initialState;
+      default:
+        return state;
+    }
+  }
+
+  const [formState, dispatch] = useReducer(reducer, initialState);
+
+  const handleChange = (field, value) => {
+    dispatch({ type: "SET_FIELD", field, value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    addTransaction({
-      description,
-      transactionAmount,
-      transactionCategory,
-      transactionType,
-    });
-    setShowTransactionForm(!showTransactionForm);
+    addTransaction(formState);
+    dispatch({ type: "RESET" });
+    setShowTransactionForm(false);
   };
 
   const onAddTransaction = () => {
     setShowTransactionForm(!showTransactionForm);
-    setDescription("");
-    setTransactionAmount(0);
-    setTransactionCategory("");
-    setTransactionType("expense");
+    dispatch({ type: "RESET" });
   };
 
   const currentBalance = transactions.reduce((acc, transaction) => {
-    return acc + (transaction.transactionType === "income" ? transaction.transactionAmount : -transaction.transactionAmount);
+    return (
+      acc + (transaction.transactionType === "income" ? transaction.transactionAmount : -transaction.transactionAmount)
+    );
   }, 0);
 
   const income = transactions.reduce((acc, transaction) => {
@@ -98,16 +116,9 @@ export const ExpenseTracker = () => {
                 <div>
                   {showTransactionForm && (
                     <TransactionForm
-                      description={description}
-                      setDescription={setDescription}
-                      transactionAmount={transactionAmount}
-                      setTransactionAmount={setTransactionAmount}
-                      transactionType={transactionType}
-                      setTransactionType={setTransactionType}
-                      transactionCategory={transactionCategory}
-                      setTransactionCategory={setTransactionCategory}
-                      onSubmit={onSubmit}
-                      onCancel={onAddTransaction}
+                      formState={formState}
+                      onChange={handleChange}
+                      onSubmit={handleSubmit}
                       onAddTransaction={onAddTransaction}
                       categories={categories}
                     />

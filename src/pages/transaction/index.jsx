@@ -3,7 +3,6 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetCategories } from "../../hooks/useGetCategories";
 import { TransactionList } from "../../components/TransactionList";
-import { Input } from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 import { TransactionForm } from "../../components/TransactionForm";
@@ -12,14 +11,29 @@ import { useReducer } from "react";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
-  const { transactions } = useGetTransactions();
+  var { transactions } = useGetTransactions();
   const { categories } = useGetCategories();
   const [showTransactionForm, setShowTransactionForm] = useState(false);
+  const [order, setOrder] = useState("desc");
+
+  const sortTransactionsByDate = (transactions, order = "asc") => {
+    return [...transactions].sort((a, b) => {
+      const dateA = new Date(a.transactionDate);
+      const dateB = new Date(b.transactionDate);
+
+      if (order === "asc") return dateB - dateA; // Sort in descending order
+      else if (order === "desc") return dateA - dateB; // Sort in ascending order
+      else return 0; // No sorting
+    });
+  };
+
+  transactions = sortTransactionsByDate(transactions, order);
 
   const initialState = {
     description: "",
     transactionAmount: null,
     transactionCategory: "",
+    transactionDate: new Date().toISOString().split("T")[0],
     transactionType: "expense",
   };
 
@@ -65,6 +79,10 @@ export const ExpenseTracker = () => {
     return acc + (transaction.transactionType === "income" ? transaction.transactionAmount : 0);
   }, 0);
 
+  const onOrderByDate = () => {
+    setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
+
   return (
     <>
       <div className="flex bg-zinc-900 min-h-screen">
@@ -107,6 +125,9 @@ export const ExpenseTracker = () => {
                   <div className="flex">
                     <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
                     <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
+                    <div className="w-5/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700" onClick={onOrderByDate}>
+                      Date
+                    </div>
                     <div className="w-5/12 px-4 py-2 border-b font-semibold">Description</div>
                     <div className="w-2/12 px-4 py-2 border-b font-semibold">Category</div>
                     <div className="w-2/12 px-4 py-2 border-b font-semibold">Amount</div>

@@ -11,6 +11,7 @@ export const useAddTransaction = () => {
     transactionAmount,
     transactionCategory,
     transactionType,
+    transactionDate,
   }) => {
     await addDoc(transactionCollectionRef, {
       userID: userID,
@@ -18,6 +19,7 @@ export const useAddTransaction = () => {
       transactionAmount: parseInt(transactionAmount),
       transactionCategory: transactionCategory,
       transactionType: transactionType,
+      transactionDate: transactionDate,
       createdAt: serverTimestamp(),
     });
   };

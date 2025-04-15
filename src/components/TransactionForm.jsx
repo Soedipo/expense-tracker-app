@@ -1,13 +1,21 @@
 import { Input } from "./Input";
 
 export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransaction, categories }) => {
-  const { description, transactionAmount, transactionCategory, transactionType } = formState;
+  const { description, transactionDate, transactionAmount, transactionCategory, transactionType } = formState;
 
   return (
     <form className="add-transaction" onSubmit={onSubmit}>
       <div className="flex text-white">
         <div className="w-1/12 px-4 py-2 border-b"></div>
         <div className="w-1/12 px-4 py-2 border-b"></div>
+        <div className="flex w-5/12 px-4 py-2 border-b">
+          <Input
+            type="date"
+            placeholder="Date"
+            value={transactionDate}
+            onChange={(e) => onChange("transactionDate", e.target.value)}
+          />
+        </div>
         <div className="flex w-5/12 px-4 py-2 border-b">
           <Input
             type="text"

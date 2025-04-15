@@ -3,7 +3,7 @@ import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useDeleteTransaction } from "../hooks/useDeleteTransaction";
 
 export const TransactionList = ({ index, transaction }) => {
-  const { id, description, transactionAmount, transactionType, transactionCategory } = transaction;
+  const { id, transactionDate, description, transactionAmount, transactionType, transactionCategory } = transaction;
   const { deleteTransaction } = useDeleteTransaction();
   
   const onDelete = (transactionID) => (e) => {
@@ -23,6 +23,7 @@ export const TransactionList = ({ index, transaction }) => {
         <FontAwesomeIcon icon={faEdit} className="text-yellow-500" />
         <FontAwesomeIcon icon={faTrashCan} className="text-red-500" onClick={onDelete(id)}/>
       </div>
+      <div className="w-5/12 px-4 py-2 border-b">{transactionDate}</div>
       <div className="w-5/12 px-4 py-2 border-b">{description}</div>
       <div className="w-2/12 px-4 py-2 border-b">{transactionCategory}</div>
       <div className="w-2/12 px-4 py-2 border-b text-green-600 font-medium">${transactionAmount}</div>

@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  query,
-  collection,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
+import { query, collection, where, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../config/firebase-config";
 import { useGetUserInfo } from "./useGetUserInfo";
 
@@ -20,13 +14,9 @@ export const useGetTransactions = () => {
     let unsubscribe;
 
     try {
-      const queryTransactions = query(
-        transactionCollectionRef,
-        where("userID", "==", userID),
-        orderBy("createdAt")
-      );
+      const queryTransactions = query(transactionCollectionRef, where("userID", "==", userID), orderBy("transactionDate", "desc"));
 
-     unsubscribe = onSnapshot(queryTransactions, (snapshot) => {
+      unsubscribe = onSnapshot(queryTransactions, (snapshot) => {
         let docs = [];
 
         snapshot.forEach((doc) => {

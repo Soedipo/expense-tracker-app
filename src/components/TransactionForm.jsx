@@ -6,22 +6,39 @@ export const TransactionForm = ({
   transactionAmount,
   setTransactionAmount,
   transactionType,
+  transactionCategory,
+  setTransactionCategory,
   setTransactionType,
   onSubmit,
-  onAddTransaction
+  onAddTransaction,
+  categories,
 }) => {
   return (
     <form className="add-transaction" onSubmit={onSubmit}>
       <div className="flex text-white">
         <div className="w-1/12 px-4 py-2 border-b"></div>
         <div className="w-1/12 px-4 py-2 border-b"></div>
-        <div className="flex w-7/12 px-4 py-2 border-b">
+        <div className="flex w-5/12 px-4 py-2 border-b">
           <Input
             type="text"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+        </div>
+        <div className="flex w-2/12 px-4 py-2 border-b">
+          <select
+            className={"p-1 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"}
+            value={transactionCategory}
+            onChange={(e) => setTransactionCategory(e.target.value)}
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            {categories.map((category) => (
+              <option value={category.name}>{category.name}</option>
+            ))}
+          </select>
         </div>
         <div className="flex w-2/12 px-4 py-2 border-b">
           <Input

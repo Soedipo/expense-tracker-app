@@ -16,6 +16,7 @@ export const ExpenseTracker = () => {
 
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionCategory, setTransactionCategory] = useState("");
   const [transactionType, setTransactionType] = useState("expense");
   const [showTransactionForm, setShowTransactionForm] = useState(false);
 
@@ -24,6 +25,7 @@ export const ExpenseTracker = () => {
     addTransaction({
       description,
       transactionAmount,
+      transactionCategory,
       transactionType,
     });
     setShowTransactionForm(!showTransactionForm);
@@ -33,6 +35,7 @@ export const ExpenseTracker = () => {
     setShowTransactionForm(!showTransactionForm);
     setDescription("");
     setTransactionAmount(0);
+    setTransactionCategory("");
     setTransactionType("expense");
   };
 
@@ -86,7 +89,8 @@ export const ExpenseTracker = () => {
                   <div className="flex">
                     <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
                     <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
-                    <div className="w-7/12 px-4 py-2 border-b font-semibold">Description</div>
+                    <div className="w-5/12 px-4 py-2 border-b font-semibold">Description</div>
+                    <div className="w-2/12 px-4 py-2 border-b font-semibold">Category</div>
                     <div className="w-2/12 px-4 py-2 border-b font-semibold">Amount</div>
                     <div className="w-1/12 px-4 py-2 border-b font-semibold">Type</div>
                   </div>
@@ -100,9 +104,12 @@ export const ExpenseTracker = () => {
                       setTransactionAmount={setTransactionAmount}
                       transactionType={transactionType}
                       setTransactionType={setTransactionType}
+                      transactionCategory={transactionCategory}
+                      setTransactionCategory={setTransactionCategory}
                       onSubmit={onSubmit}
                       onCancel={onAddTransaction}
                       onAddTransaction={onAddTransaction}
+                      categories={categories}
                     />
                   )}
 

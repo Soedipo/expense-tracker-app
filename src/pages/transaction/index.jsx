@@ -31,7 +31,7 @@ export const ExpenseTracker = () => {
 
   const initialState = {
     description: "",
-    transactionAmount: null,
+    transactionAmount: 0,
     transactionCategory: "",
     transactionDate: new Date().toISOString().split("T")[0],
     transactionType: "expense",

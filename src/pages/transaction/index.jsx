@@ -9,6 +9,22 @@ import { TransactionForm } from "../../components/TransactionForm";
 import { SideNav } from "../../components/SideNav";
 import { useReducer } from "react";
 
+const tableColumns = [
+  { title: "", sortKey: "pick", width: "w-[5%]" },
+  { title: "", sortKey: "modify", width: "w-[5%]" },
+  { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
+  { title: "Account", sortKey: "account", width: "w-2/12" },
+  { title: "Description", sortKey: "description", width: "w-2/12" },
+  { title: "Category", sortKey: "transactionCategory", width: "w-2/12" },
+  { title: "Amount", sortKey: "transactionAmount", width: "w-2/12" },
+  { title: "Type", sortKey: "transactionType", width: "w-1/12" },
+  // {
+  //   title: "Power Usage",
+  //   sortKey: "powerUsage",
+  //   sortBy: (v) => ["LOW", "MEDIUM", "HIGH"].indexOf(v.powerUsage),
+  // },
+];
+
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   var { transactions } = useGetTransactions();
@@ -79,6 +95,10 @@ export const ExpenseTracker = () => {
     return acc + (transaction.transactionType === "income" ? transaction.transactionAmount : 0);
   }, 0);
 
+  const expense = transactions.reduce((acc, transaction) => {
+    return acc + (transaction.transactionType === "expense" ? transaction.transactionAmount : 0);
+  }, 0);
+
   const onOrderByDate = () => {
     setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
@@ -100,7 +120,7 @@ export const ExpenseTracker = () => {
               <div className="summary bg-zinc-800 shadow-md rounded-lg w-full max-w-sm p-4 text-center">
                 <div className="income">
                   <h3 className="text-lg font-semibold text-zinc-300">Income</h3>
-                  <p className="text-xl font-bold text-green-500">${income}</p>
+                  <p className="text-xl font-bold text-green-500">+${income}</p>
                 </div>
               </div>
             </div>
@@ -123,29 +143,15 @@ export const ExpenseTracker = () => {
               <div className="w-full text-left border-collapse">
                 <div>
                   <div className="flex">
-                    <div className="w-1/12 px-4 py-2 border-b font-semibold select-none"></div>
-                    <div className="w-1/12 px-4 py-2 border-b font-semibold select-none"></div>
-                    <div
-                      className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none"
-                      onClick={onOrderByDate}
-                    >
-                      Date
-                    </div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
-                      Account
-                    </div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
-                      Description
-                    </div>
-                    <div className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
-                      Category
-                    </div>
-                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
-                      Amount
-                    </div>
-                    <div className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
-                      Type
-                    </div>
+                    {tableColumns.map(({ title, sortKey, width }) => (
+                      <div
+                        key={title}
+                        onClick={onOrderByDate}
+                        className={`${width} px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none`}
+                      >
+                        {title}
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div>

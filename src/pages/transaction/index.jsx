@@ -26,7 +26,7 @@ const tableColumns = [
   // },
 ];
 
-export const ExpenseTracker = () => {
+export const Transaction = () => {
   const { addTransaction } = useAddTransaction();
   var { transactions } = useGetTransactions();
   const { categories } = useGetCategories();

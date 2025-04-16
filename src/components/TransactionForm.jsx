@@ -1,14 +1,14 @@
 import { Input } from "./Input";
 
 export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransaction, categories }) => {
-  const { description, transactionDate, transactionAmount, transactionCategory, transactionType } = formState;
+  const { description, transactionDate, account, transactionAmount, transactionCategory, transactionType } = formState;
 
   return (
     <form className="add-transaction" onSubmit={onSubmit}>
       <div className="flex text-white">
         <div className="w-1/12 px-4 py-2 border-b"></div>
         <div className="w-1/12 px-4 py-2 border-b"></div>
-        <div className="flex w-5/12 px-4 py-2 border-b">
+        <div className="flex w-2/12 px-4 py-2 border-b">
           <Input
             type="date"
             placeholder="Date"
@@ -16,7 +16,15 @@ export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransactio
             onChange={(e) => onChange("transactionDate", e.target.value)}
           />
         </div>
-        <div className="flex w-5/12 px-4 py-2 border-b">
+        <div className="flex w-3/12 px-4 py-2 border-b">
+          <Input
+            type="text"
+            placeholder="Account"
+            value={account}
+            onChange={(e) => onChange("account", e.target.value)}
+          />
+        </div>
+        <div className="flex w-3/12 px-4 py-2 border-b">
           <Input
             type="text"
             placeholder="Description"
@@ -26,7 +34,7 @@ export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransactio
         </div>
         <div className="flex w-2/12 px-4 py-2 border-b">
           <select
-            className="p-1 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
+            className="-ml-1 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
             value={transactionCategory}
             onChange={(e) => onChange("transactionCategory", e.target.value)}
           >
@@ -40,17 +48,15 @@ export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransactio
             ))}
           </select>
         </div>
-        <div className="flex w-2/12 px-4 py-2 border-b">
+        <div className="flex w-3/12 px-4 py-2 border-b">
           <Input
             type="number"
             placeholder="Amount"
             value={transactionAmount}
-            onChange={(e) =>
-              onChange("transactionAmount", parseFloat(e.target.value))
-            }
+            onChange={(e) => onChange("transactionAmount", parseFloat(e.target.value))}
           />
         </div>
-        <div className="w-1/12 px-4 py-2 border-b">
+        <div className="w-2/12 px-4 py-2 border-b">
           <select
             className={`p-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
               transactionType === "income" ? "text-green-700" : "text-red-700"

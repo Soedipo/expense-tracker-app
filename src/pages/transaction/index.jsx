@@ -123,15 +123,29 @@ export const ExpenseTracker = () => {
               <div className="w-full text-left border-collapse">
                 <div>
                   <div className="flex">
-                    <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
-                    <div className="w-1/12 px-4 py-2 border-b font-semibold"></div>
-                    <div className="w-5/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700" onClick={onOrderByDate}>
+                    <div className="w-1/12 px-4 py-2 border-b font-semibold select-none"></div>
+                    <div className="w-1/12 px-4 py-2 border-b font-semibold select-none"></div>
+                    <div
+                      className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none"
+                      onClick={onOrderByDate}
+                    >
                       Date
                     </div>
-                    <div className="w-5/12 px-4 py-2 border-b font-semibold">Description</div>
-                    <div className="w-2/12 px-4 py-2 border-b font-semibold">Category</div>
-                    <div className="w-2/12 px-4 py-2 border-b font-semibold">Amount</div>
-                    <div className="w-1/12 px-4 py-2 border-b font-semibold">Type</div>
+                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
+                      Account
+                    </div>
+                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
+                      Description
+                    </div>
+                    <div className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
+                      Category
+                    </div>
+                    <div className="w-3/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
+                      Amount
+                    </div>
+                    <div className="w-2/12 px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none">
+                      Type
+                    </div>
                   </div>
                 </div>
                 <div>

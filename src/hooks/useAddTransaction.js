@@ -8,6 +8,7 @@ export const useAddTransaction = () => {
 
   const addTransaction = async ({
     description,
+    account,
     transactionAmount,
     transactionCategory,
     transactionType,
@@ -16,6 +17,7 @@ export const useAddTransaction = () => {
     await addDoc(transactionCollectionRef, {
       userID: userID,
       description: description,
+      account: account,
       transactionAmount: transactionAmount,
       transactionCategory: transactionCategory,
       transactionType: transactionType,

@@ -8,6 +8,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 import { TransactionForm } from "../../components/TransactionForm";
 import { SideNav } from "../../components/SideNav";
 import { useReducer } from "react";
+import { AmountCard } from "../../components/AmountCard";
 
 const tableColumns = [
   { title: "", sortKey: "pick", width: "w-[5%]" },
@@ -62,6 +63,8 @@ export const ExpenseTracker = () => {
         };
       case "RESET":
         return initialState;
+      case "EDIT":
+        return initialState;
       default:
         return state;
     }
@@ -78,6 +81,10 @@ export const ExpenseTracker = () => {
     addTransaction(formState);
     dispatch({ type: "RESET" });
     setShowTransactionForm(false);
+  };
+
+  const onEdit = () => {
+    dispatch({ type: "EDIT" });
   };
 
   const onAddTransaction = () => {
@@ -110,24 +117,19 @@ export const ExpenseTracker = () => {
         {/* Main Content */}
         <div className="expense-tracker w-11/12 flex flex-col items-center gap-6 p-4 bg-zinc-700 min-h-screen text-white">
           <h1 className="text-3xl font-bold text-center mb-6 mt-6">Expense Tracker</h1>
+
           {/* Balance & Summary */}
-          <div className="info-container flex flex-col items-center w-full max-w-3xl">
+          <div className="info-container flex w-full max-w-3xl">
             <div className="flex justify-center gap-6 w-full">
-              <div className="balance bg-zinc-800 shadow-md rounded-lg w-full max-w-sm p-4 text-center">
-                <h3 className="text-lg font-semibold text-zinc-300">Current Balance</h3>
-                <h2 className="text-2xl font-bold text-green-600">${currentBalance}</h2>
-              </div>
-              <div className="summary bg-zinc-800 shadow-md rounded-lg w-full max-w-sm p-4 text-center">
-                <div className="income">
-                  <h3 className="text-lg font-semibold text-zinc-300">Income</h3>
-                  <p className="text-xl font-bold text-green-500">+${income}</p>
-                </div>
-              </div>
+              <AmountCard text="Current Balance" amount={"$" + currentBalance} />
+              <AmountCard text="Income" amount={"+$" + income} color="green" />
+              <AmountCard text="Expense" amount={"-$" + expense} color="red" />
             </div>
           </div>
 
           <div className="transactions w-full bg-zinc-800 shadow-md rounded-lg p-6">
             {/* Table */}
+            {/* Header */}
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-semibold text-zinc-300">Transaction List</h3>
               <button
@@ -138,8 +140,9 @@ export const ExpenseTracker = () => {
                 <span className="text-zinc-300"> Add Transaction</span>
               </button>
             </div>
+            {/* Body */}
             <div className="overflow-x-auto">
-              {/* Form */}
+              {/* Column */}
               <div className="w-full text-left border-collapse">
                 <div>
                   <div className="flex">
@@ -154,6 +157,8 @@ export const ExpenseTracker = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Form */}
                 <div>
                   {showTransactionForm && (
                     <TransactionForm
@@ -165,6 +170,7 @@ export const ExpenseTracker = () => {
                     />
                   )}
 
+                  {/* Transaction List */}
                   {transactions.map((transaction, index) => (
                     <TransactionList index={index} transaction={transaction} />
                   ))}

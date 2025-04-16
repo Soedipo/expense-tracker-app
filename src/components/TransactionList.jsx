@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useDeleteTransaction } from "../hooks/useDeleteTransaction";
+import { InlineEdit } from "./InlineEdit";
 
 const tableColumns = [
   { key: "pick", width: "w-[5%]" },
@@ -46,14 +47,26 @@ export const TransactionList = ({ index, transaction }) => {
   };
 
   return (
-    <div key={index} className={`flex transition text-white ${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"}`}>
+    <div
+      key={transaction.id}
+      className={`flex transition text-white ${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"}`}
+    >
       {tableColumns.map(({ key, width }) => {
         const content = renderCell[key] ? renderCell[key](transaction, onDelete) : transaction[key];
 
         return (
-          <div key={key} className={`${width} px-4 py-2 border-b`}>
-            {content}
-          </div>
+          <InlineEdit
+            key={key}
+            width={width}
+            content={content}
+            transaction={transaction}
+            onChange={(key, value) => console.log(key, value)}
+            onCancel={() => console.log("cancel")}
+            type={key === "transactionDate" ? "date" : key === "transactionAmount" ? "number" : "text"}
+          />
+          // <div key={key} className={`${width} px-4 py-2 border-b`}>
+          //   {content}
+          // </div>
         );
       })}
     </div>

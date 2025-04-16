@@ -31,6 +31,7 @@ export const Transaction = () => {
   var { transactions } = useGetTransactions();
   const { categories } = useGetCategories();
   const [showTransactionForm, setShowTransactionForm] = useState(false);
+  const [editableIndex, setEditableIndex] = useState("");
   const [order, setOrder] = useState("desc");
 
   const sortTransactionsByDate = (transactions, order = "asc") => {

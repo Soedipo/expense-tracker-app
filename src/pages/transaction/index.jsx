@@ -16,7 +16,7 @@ const tableColumns = [
   { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
   { title: "Account", sortKey: "account", width: "w-2/12" },
   { title: "Description", sortKey: "description", width: "w-2/12" },
-  { title: "Category", sortKey: "transactionCategory", width: "w-2/12" },
+  { title: "Category", sortKey: "category", width: "w-2/12" },
   { title: "Amount", sortKey: "transactionAmount", width: "w-2/12" },
   { title: "Type", sortKey: "transactionType", width: "w-1/12" },
   // {
@@ -49,7 +49,7 @@ export const ExpenseTracker = () => {
   const initialState = {
     description: "",
     transactionAmount: 0,
-    transactionCategory: "",
+    category: "",
     transactionDate: new Date().toISOString().split("T")[0],
     transactionType: "expense",
   };

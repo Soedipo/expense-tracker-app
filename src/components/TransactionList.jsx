@@ -8,7 +8,7 @@ const tableColumns = [
   { key: "transactionDate", width: "w-[15%]" },
   { key: "account", width: "w-2/12" },
   { key: "description", width: "w-2/12" },
-  { key: "transactionCategory", width: "w-2/12" },
+  { key: "category", width: "w-2/12" },
   { key: "transactionAmount", width: "w-2/12" },
   { key: "transactionType", width: "w-1/12" },
 ];

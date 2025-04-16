@@ -1,13 +1,13 @@
 import { Input } from "./Input";
 
 export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransaction, categories }) => {
-  const { description, transactionDate, account, transactionAmount, transactionCategory, transactionType } = formState;
+  const { description, transactionDate, account, transactionAmount, category, transactionType } = formState;
 
   const formFields = [
     { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date" },
     { key: "account", width: "w-2/12", type: "text", placeholder: "Account" },
     { key: "description", width: "w-2/12", type: "text", placeholder: "Description" },
-    { key: "transactionCategory", width: "w-2/12", type: "select-category" },
+    { key: "category", width: "w-2/12", type: "select-category" },
     { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount" },
     { key: "transactionType", width: "w-1/12", type: "select-type" },
   ];

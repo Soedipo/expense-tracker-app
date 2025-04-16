@@ -10,7 +10,7 @@ export const useAddTransaction = () => {
     description,
     account,
     transactionAmount,
-    transactionCategory,
+    category,
     transactionType,
     transactionDate,
   }) => {
@@ -19,7 +19,7 @@ export const useAddTransaction = () => {
       description: description,
       account: account,
       transactionAmount: transactionAmount,
-      transactionCategory: transactionCategory,
+      category: category,
       transactionType: transactionType,
       transactionDate: transactionDate,
       createdAt: serverTimestamp(),

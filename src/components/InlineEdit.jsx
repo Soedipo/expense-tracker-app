@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./Input";
-export const InlineEdit = ({ fieldKey, width, content, transaction, onChange, onCancel, type = "date" }) => {
+export const InlineEdit = ({
+  fieldKey,
+  unEditableFields,
+  width,
+  content,
+  transaction,
+  onChange,
+  onCancel,
+  type = "date",
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(transaction);
-  const unEditableFields = ["pick", "delete"];
   const isUnEditable = unEditableFields.includes(fieldKey);
 
   const handleEditClick = () => {
@@ -11,7 +19,8 @@ export const InlineEdit = ({ fieldKey, width, content, transaction, onChange, on
   };
 
   const handleInputChange = (e) => {
-    const { fieldKey, value } = e.target;
+    const { value } = e.target;
+
     setEditedTransaction((prev) => ({ ...prev, [fieldKey]: value }));
   };
 

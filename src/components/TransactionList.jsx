@@ -58,6 +58,7 @@ export const TransactionList = ({ index, transaction }) => {
           <InlineEdit
             key={key}
             fieldKey={key}
+            unEditableFields={["pick", "delete"]}
             width={width}
             content={content}
             transaction={transaction}

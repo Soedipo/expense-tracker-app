@@ -7,15 +7,10 @@ export const useAddTransaction = () => {
   const transactionPath = "transactions";
 
   const addTransaction = async (transactionData) => {
-    const { description, account, transactionAmount, category, transactionType, transactionDate } = transactionData;
+    // const { description, account, transactionAmount, category, transactionType, transactionDate } = transactionData;
     const transactionToBeAdded = {
+      ...transactionData,
       userID,
-      description,
-      account,
-      transactionAmount: parseFloat(transactionAmount),
-      category,
-      transactionType,
-      transactionDate,
     };
 
     firebaseAddDoc(transactionToBeAdded, transactionPath);

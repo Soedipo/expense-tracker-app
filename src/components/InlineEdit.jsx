@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useClickAway } from "@uidotdev/usehooks";
+
 import { Input } from "./Input";
 export const InlineEdit = ({
   fieldKey,
@@ -12,6 +14,36 @@ export const InlineEdit = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(transaction);
+
+  const ref = useClickAway(() => {
+    setIsEditing(false);
+  });
+
+  // const enter = useKeypress("Enter");
+  // const esc = useKeypress("Escape");
+
+  // // check to see if the user clicked outside of this component
+  // useOnClickOutside(wrapperRef, () => {
+  //   if (isInputActive) {
+  //     onSetText(inputValue);
+  //     setIsInputActive(false);
+  //   }
+  // });
+
+  // const onEnter = useCallback(() => {
+  //   if (enter) {
+  //     onSetText(inputValue);
+  //     setIsInputActive(false);
+  //   }
+  // }, [enter, inputValue, onSetText]);
+
+  // const onEsc = useCallback(() => {
+  //   if (esc) {
+  //     setInputValue(props.text);
+  //     setIsInputActive(false);
+  //   }
+  // }, [esc, props.text]);
+
   const isUnEditable = unEditableFields.includes(fieldKey);
 
   const handleEditClick = () => {
@@ -34,7 +66,6 @@ export const InlineEdit = ({
     <>
       {isEditing && !isUnEditable ? (
         <div key={fieldKey} className={`flex ${width} px-4 py-2 border-b`}>
-          {/* <Input type={type} name={key} value={editedTransaction[key]} onChange={(e) => handleInputChange(e)} /> */}
           <Input
             type={type}
             value={editedTransaction[fieldKey]}

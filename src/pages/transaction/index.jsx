@@ -13,7 +13,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 
 const tableColumns = [
   { title: "", sortKey: "pick", width: "w-[5%]" },
-  { title: "", sortKey: "modify", width: "w-[5%]" },
+  { title: "", sortKey: "delete", width: "w-[5%]" },
   { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
   { title: "Account", sortKey: "account", width: "w-2/12" },
   { title: "Description", sortKey: "description", width: "w-2/12" },

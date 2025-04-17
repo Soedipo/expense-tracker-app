@@ -5,7 +5,7 @@ import { InlineEdit } from "./InlineEdit";
 
 const tableColumns = [
   { key: "pick", width: "w-[5%]" },
-  { key: "modify", width: "w-[5%]" },
+  { key: "delete", width: "w-[5%]" },
   { key: "transactionDate", width: "w-[15%]" },
   { key: "account", width: "w-2/12" },
   { key: "description", width: "w-2/12" },
@@ -21,7 +21,7 @@ const renderCell = {
       className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
     />
   ),
-  modify: (transaction, onDelete) => (
+  delete: (transaction, onDelete) => (
     <div className="flex gap-4 items-center">
       <FontAwesomeIcon icon={faTrashCan} className="text-red-500 cursor-pointer" onClick={onDelete(transaction.id)} />
     </div>

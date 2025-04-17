@@ -3,14 +3,16 @@ import { Input } from "./Input";
 export const InlineEdit = ({ fieldKey, width, content, transaction, onChange, onCancel, type = "date" }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(transaction);
+  const unEditableFields = ["pick", "delete"];
+  const isUnEditable = unEditableFields.includes(fieldKey);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleInputChange = (e) => {
-    const { key, value } = e.target;
-    setEditedTransaction((prev) => ({ ...prev, [key]: value }));
+    const { fieldKey, value } = e.target;
+    setEditedTransaction((prev) => ({ ...prev, [fieldKey]: value }));
   };
 
   //   const handleCancelClick = () => {
@@ -21,7 +23,7 @@ export const InlineEdit = ({ fieldKey, width, content, transaction, onChange, on
 
   return (
     <>
-      {isEditing ? (
+      {isEditing && !isUnEditable ? (
         <div key={fieldKey} className={`flex ${width} px-4 py-2 border-b`}>
           {/* <Input type={type} name={key} value={editedTransaction[key]} onChange={(e) => handleInputChange(e)} /> */}
           <Input

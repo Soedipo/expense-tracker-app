@@ -1,7 +1,7 @@
 import { Input } from "./Input";
 
-export const TransactionForm = ({ formState, onChange, onSubmit, onAddTransaction, categories }) => {
-  // const { description, transactionDate, account, transactionAmount, category, transactionType } = formState;
+export const TransactionForm = ({ formState, handlers, categories }) => {
+  const { onChange, onSubmit, onAddTransaction } = handlers;
 
   const formFields = [
     { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date" },

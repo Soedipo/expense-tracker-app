@@ -103,6 +103,12 @@ export const Transaction = () => {
     return acc + (transaction.transactionType === "expense" ? transaction.transactionAmount : 0);
   }, 0);
 
+  const transactionFormHandlers = {
+    onChange: handleChange,
+    onSubmit: handleSubmit,
+    onAddTransaction: onAddTransaction,
+  };
+
   return (
     <>
       <SideNav />
@@ -139,16 +145,10 @@ export const Transaction = () => {
                 {/* Column */}
                 <TableColumn tableColumns={tableColumns} setOrder={setOrder} />
 
-                {/* Form */}
                 <div>
+                  {/* Form */}
                   {showTransactionForm && (
-                    <TransactionForm
-                      formState={formState}
-                      onChange={handleChange}
-                      onSubmit={handleSubmit}
-                      onAddTransaction={onAddTransaction}
-                      categories={categories}
-                    />
+                    <TransactionForm formState={formState} handlers={transactionFormHandlers} categories={categories} />
                   )}
 
                   {/* Transaction List */}

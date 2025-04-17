@@ -5,9 +5,9 @@ export const TableColumn = ({ tableColumns, setOrder }) => {
 
   return (
     <div className="flex">
-      {tableColumns.map(({ title, width }) => (
+      {tableColumns.map(({ title, sortKey, width }) => (
         <div
-          key={title}
+          key={sortKey}
           onClick={onOrderByDate}
           className={`${width} px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none`}
         >

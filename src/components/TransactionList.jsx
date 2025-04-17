@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useDeleteTransaction } from "../hooks/useDeleteTransaction";
 import { InlineEdit } from "./InlineEdit";
 
@@ -14,7 +14,6 @@ const tableColumns = [
   { key: "transactionType", width: "w-1/12" },
 ];
 
-// 👇 Cell render logic: easily extendable!
 const renderCell = {
   pick: () => (
     <input
@@ -24,7 +23,6 @@ const renderCell = {
   ),
   modify: (transaction, onDelete) => (
     <div className="flex gap-4 items-center">
-      <FontAwesomeIcon icon={faEdit} className="text-yellow-500 cursor-pointer" />
       <FontAwesomeIcon icon={faTrashCan} className="text-red-500 cursor-pointer" onClick={onDelete(transaction.id)} />
     </div>
   ),
@@ -48,7 +46,7 @@ export const TransactionList = ({ index, transaction }) => {
 
   return (
     <div
-      key={transaction.id}
+      // key={transaction.id}
       className={`flex transition text-white ${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"}`}
     >
       {tableColumns.map(({ key, width }) => {
@@ -56,6 +54,7 @@ export const TransactionList = ({ index, transaction }) => {
 
         return (
           <InlineEdit
+            key={key}
             fieldKey={key}
             width={width}
             content={content}
@@ -64,9 +63,6 @@ export const TransactionList = ({ index, transaction }) => {
             onCancel={() => console.log("cancel")}
             type={key === "transactionDate" ? "date" : key === "transactionAmount" ? "number" : "text"}
           />
-          // <div key={key} className={`${width} px-4 py-2 border-b`}>
-          //   {content}
-          // </div>
         );
       })}
     </div>

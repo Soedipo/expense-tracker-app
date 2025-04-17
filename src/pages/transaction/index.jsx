@@ -9,6 +9,7 @@ import { TransactionForm } from "../../components/TransactionForm";
 import { SideNav } from "../../components/SideNav";
 import { useReducer } from "react";
 import { AmountCard } from "../../components/AmountCard";
+import { TableColumn } from "../../components/TableColumn";
 
 const tableColumns = [
   { title: "", sortKey: "pick", width: "w-[5%]" },
@@ -31,7 +32,6 @@ export const Transaction = () => {
   var { transactions } = useGetTransactions();
   const { categories } = useGetCategories();
   const [showTransactionForm, setShowTransactionForm] = useState(false);
-  const [editableIndex, setEditableIndex] = useState("");
   const [order, setOrder] = useState("desc");
 
   const sortTransactionsByDate = (transactions, order = "asc") => {
@@ -84,10 +84,6 @@ export const Transaction = () => {
     setShowTransactionForm(false);
   };
 
-  const onEdit = () => {
-    dispatch({ type: "EDIT" });
-  };
-
   const onAddTransaction = () => {
     setShowTransactionForm(!showTransactionForm);
     dispatch({ type: "RESET" });
@@ -106,10 +102,6 @@ export const Transaction = () => {
   const expense = transactions.reduce((acc, transaction) => {
     return acc + (transaction.transactionType === "expense" ? transaction.transactionAmount : 0);
   }, 0);
-
-  const onOrderByDate = () => {
-    setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
-  };
 
   return (
     <>
@@ -143,21 +135,9 @@ export const Transaction = () => {
             </div>
             {/* Body */}
             <div className="overflow-x-auto">
-              {/* Column */}
               <div className="w-full text-left border-collapse">
-                <div>
-                  <div className="flex">
-                    {tableColumns.map(({ title, sortKey, width }) => (
-                      <div
-                        key={title}
-                        onClick={onOrderByDate}
-                        className={`${width} px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none`}
-                      >
-                        {title}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                {/* Column */}
+                <TableColumn tableColumns={tableColumns} setOrder={setOrder} />
 
                 {/* Form */}
                 <div>
@@ -173,7 +153,7 @@ export const Transaction = () => {
 
                   {/* Transaction List */}
                   {transactions.map((transaction, index) => (
-                    <TransactionList index={index} transaction={transaction} />
+                    <TransactionList key={transaction.id} index={index} transaction={transaction} />
                   ))}
                 </div>
               </div>

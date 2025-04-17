@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useDeleteTransaction } from "../hooks/useDeleteTransaction";
+import { useFirebaseDeleteDoc } from "../hooks/firebaseHooks";
 import { InlineEdit } from "./InlineEdit";
 
 const tableColumns = [
@@ -37,11 +37,13 @@ const renderCell = {
 };
 
 export const TransactionList = ({ index, transaction }) => {
-  const { deleteTransaction } = useDeleteTransaction();
+  const { firebaseDeleteDoc } = useFirebaseDeleteDoc();
 
   const onDelete = (id) => (e) => {
     e.preventDefault();
-    deleteTransaction(id);
+    firebaseDeleteDoc(id, "transactions")
+      .then(() => alert("Transaction deleted successfully"))
+      .catch((error) => alert("Error deleting transaction:", error));
   };
 
   return (

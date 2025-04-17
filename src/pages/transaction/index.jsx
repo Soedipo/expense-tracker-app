@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetCategories } from "../../hooks/useGetCategories";
+
+import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
+import { TransactionForm } from "../../components/TransactionForm";
+import { TableColumn } from "../../components/TableColumn";
+import { AmountCard } from "../../components/AmountCard";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
-import { TransactionForm } from "../../components/TransactionForm";
-import { SideNav } from "../../components/SideNav";
-import { useReducer } from "react";
-import { AmountCard } from "../../components/AmountCard";
-import { TableColumn } from "../../components/TableColumn";
 
 const tableColumns = [
   { title: "", sortKey: "pick", width: "w-[5%]" },
@@ -44,7 +45,6 @@ export const Transaction = () => {
       else return 0; // No sorting
     });
   };
-
   transactions = sortTransactionsByDate(transactions, order);
 
   const initialState = {
@@ -139,6 +139,7 @@ export const Transaction = () => {
                 <span className="text-zinc-300"> Add Transaction</span>
               </button>
             </div>
+
             {/* Body */}
             <div className="overflow-x-auto">
               <div className="w-full text-left border-collapse">

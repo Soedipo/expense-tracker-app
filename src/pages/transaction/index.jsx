@@ -1,5 +1,6 @@
 import { useState, useReducer } from "react";
-import { useAddTransaction, useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
+import { useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
+import { useAddTransaction } from "../../hooks/transactionHooks";
 
 import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
@@ -46,6 +47,7 @@ export const Transaction = () => {
   transactions = sortTransactionsByDate(transactions, order);
 
   const initialState = {
+    account: "",
     description: "",
     transactionAmount: 0,
     category: "",

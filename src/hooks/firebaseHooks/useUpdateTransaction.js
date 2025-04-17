@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../config/firebase-config";
+import { db } from "../../config/firebase-config";
 
 export const useUpdateTransaction = () => {
   const updateTransaction = async (transactionId, transactionData) => {

@@ -1,7 +1,5 @@
 import { useState, useReducer } from "react";
-import { useAddTransaction } from "../../hooks/useAddTransaction";
-import { useGetTransactions } from "../../hooks/useGetTransactions";
-import { useGetCategories } from "../../hooks/useGetCategories";
+import { useAddTransaction, useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
 
 import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";

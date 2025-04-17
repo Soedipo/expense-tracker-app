@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { useAddTransaction } from "../../hooks/useAddTransaction";
-import { useGetTransactions } from "../../hooks/useGetTransactions";
-import { useGetCategories } from "../../hooks/useGetCategories";
+import { useState, useReducer } from "react";
+import { useAddTransaction, useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
+
+import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
+import { TransactionForm } from "../../components/TransactionForm";
+import { TableColumn } from "../../components/TableColumn";
+import { AmountCard } from "../../components/AmountCard";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
-import { TransactionForm } from "../../components/TransactionForm";
-import { SideNav } from "../../components/SideNav";
-import { useReducer } from "react";
-import { AmountCard } from "../../components/AmountCard";
 
 const tableColumns = [
   { title: "", sortKey: "pick", width: "w-[5%]" },
@@ -43,7 +43,6 @@ export const Budget = () => {
       else return 0; // No sorting
     });
   };
-
   transactions = sortTransactionsByDate(transactions, order);
 
   const initialState = {
@@ -83,10 +82,6 @@ export const Budget = () => {
     setShowTransactionForm(false);
   };
 
-  const onEdit = () => {
-    dispatch({ type: "EDIT" });
-  };
-
   const onAddTransaction = () => {
     setShowTransactionForm(!showTransactionForm);
     dispatch({ type: "RESET" });
@@ -106,8 +101,10 @@ export const Budget = () => {
     return acc + (transaction.transactionType === "expense" ? transaction.transactionAmount : 0);
   }, 0);
 
-  const onOrderByDate = () => {
-    setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  const transactionFormHandlers = {
+    onChange: handleChange,
+    onSubmit: handleSubmit,
+    onAddTransaction: onAddTransaction,
   };
 
   return (
@@ -140,39 +137,22 @@ export const Budget = () => {
                 <span className="text-zinc-300"> Add Transaction</span>
               </button>
             </div>
+
             {/* Body */}
             <div className="overflow-x-auto">
-              {/* Column */}
               <div className="w-full text-left border-collapse">
-                <div>
-                  <div className="flex">
-                    {tableColumns.map(({ title, sortKey, width }) => (
-                      <div
-                        key={title}
-                        onClick={onOrderByDate}
-                        className={`${width} px-4 py-2 border-b font-semibold active:bg-zinc-600 hover:bg-zinc-700 cursor-pointer select-none`}
-                      >
-                        {title}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                {/* Column */}
+                <TableColumn tableColumns={tableColumns} setOrder={setOrder} />
 
-                {/* Form */}
                 <div>
+                  {/* Form */}
                   {showTransactionForm && (
-                    <TransactionForm
-                      formState={formState}
-                      onChange={handleChange}
-                      onSubmit={handleSubmit}
-                      onAddTransaction={onAddTransaction}
-                      categories={categories}
-                    />
+                    <TransactionForm formState={formState} handlers={transactionFormHandlers} categories={categories} />
                   )}
 
                   {/* Transaction List */}
                   {transactions.map((transaction, index) => (
-                    <TransactionList index={index} transaction={transaction} />
+                    <TransactionList key={transaction.id} index={index} transaction={transaction} />
                   ))}
                 </div>
               </div>

@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  query,
-  collection,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "../config/firebase-config";
+import { query, collection, where, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "../../config/firebase-config";
 
 export const useGetCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -17,12 +11,9 @@ export const useGetCategories = () => {
     let unsubscribe;
 
     try {
-      const queryCategories = query(
-        categoryCollectionRef,
-        orderBy("name")
-      );
+      const queryCategories = query(categoryCollectionRef, orderBy("name"));
 
-     unsubscribe = onSnapshot(queryCategories, (snapshot) => {
+      unsubscribe = onSnapshot(queryCategories, (snapshot) => {
         let docs = [];
 
         snapshot.forEach((doc) => {

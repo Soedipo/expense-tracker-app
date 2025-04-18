@@ -5,13 +5,14 @@ import { Input } from "./Input";
 
 export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, path, type = "string", options = [] }) => {
   const { firebaseUpdateDoc } = useFirebaseUpdateDoc();
-  const [inputValue, setInputValue] = useState(content);
-  const [isEditing, setIsEditing] = useState(false);
   const id = data.id;
+  const prevValue = data[fieldKey];
+  const [inputValue, setInputValue] = useState(prevValue);
+  const [isEditing, setIsEditing] = useState(false);
 
   const ref = useClickAway(() => {
     if (isEditing) {
-      if (inputValue === content) {
+      if (inputValue === prevValue) {
         setIsEditing(false);
         return;
       }
@@ -53,7 +54,7 @@ export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, p
   };
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(type === "number" ? parseFloat(e.target.value || 0) : e.target.value);
   };
 
   //   const handleCancelClick = () => {

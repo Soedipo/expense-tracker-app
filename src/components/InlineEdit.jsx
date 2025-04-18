@@ -1,22 +1,24 @@
 import React, { useState } from "react";
+import { useFirebaseUpdateDoc } from "../hooks/firebaseHooks";
 import { useClickAway } from "@uidotdev/usehooks";
-
 import { Input } from "./Input";
-export const InlineEdit = ({
-  fieldKey,
-  unEditableFields,
-  width,
-  content,
-  transaction,
-  onChange,
-  onCancel,
-  type = "date",
-}) => {
+
+export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, path, type = "string" }) => {
+  const { firebaseUpdateDoc } = useFirebaseUpdateDoc();
+  const [inputValue, setInputValue] = useState(content);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTransaction, setEditedTransaction] = useState(transaction);
+  const id = data.id;
 
   const ref = useClickAway(() => {
-    setIsEditing(false);
+    if (isEditing) {
+      if (inputValue === content) {
+        setIsEditing(false);
+        return;
+      }
+
+      firebaseUpdateDoc(path, id, { [fieldKey]: inputValue });
+      setIsEditing(false);
+    }
   });
 
   // const enter = useKeypress("Enter");
@@ -51,9 +53,7 @@ export const InlineEdit = ({
   };
 
   const handleInputChange = (e) => {
-    const { value } = e.target;
-
-    setEditedTransaction((prev) => ({ ...prev, [fieldKey]: value }));
+    setInputValue(e.target.value);
   };
 
   //   const handleCancelClick = () => {
@@ -67,8 +67,9 @@ export const InlineEdit = ({
       {isEditing && !isUnEditable ? (
         <div key={fieldKey} className={`flex ${width} px-4 py-2 border-b`}>
           <Input
+            ref={ref}
             type={type}
-            value={editedTransaction[fieldKey]}
+            value={inputValue}
             onChange={(e) => handleInputChange(e)}
             onBlur={() => setIsEditing(false)}
           />

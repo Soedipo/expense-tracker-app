@@ -14,6 +14,9 @@ const tableColumns = [
   { key: "transactionType", width: "w-1/12" },
 ];
 
+const unEditableFields = ["pick", "delete"];
+const transactionPath = "transactions";
+
 const renderCell = {
   pick: () => (
     <input
@@ -41,7 +44,7 @@ export const TransactionList = ({ index, transaction }) => {
 
   const onDelete = (id) => (e) => {
     e.preventDefault();
-    firebaseDeleteDoc(id, "transactions")
+    firebaseDeleteDoc(id, transactionPath)
       .then(() => alert("Transaction deleted successfully"))
       .catch((error) => alert("Error deleting transaction:", error));
   };
@@ -58,12 +61,11 @@ export const TransactionList = ({ index, transaction }) => {
           <InlineEdit
             key={key}
             fieldKey={key}
-            unEditableFields={["pick", "delete"]}
+            unEditableFields={unEditableFields}
             width={width}
             content={content}
-            transaction={transaction}
-            onChange={(key, value) => console.log(key, value)}
-            onCancel={() => console.log("cancel")}
+            data={transaction}
+            path={transactionPath}
             type={key === "transactionDate" ? "date" : key === "transactionAmount" ? "number" : "text"}
           />
         );

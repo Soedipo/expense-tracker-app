@@ -4,14 +4,14 @@ import { useFirebaseDeleteDoc } from "../hooks/firebaseHooks";
 import { InlineEdit } from "./InlineEdit";
 
 const tableColumns = [
-  { key: "pick", width: "w-[5%]" },
-  { key: "delete", width: "w-[5%]" },
-  { key: "transactionDate", width: "w-[15%]" },
-  { key: "account", width: "w-2/12" },
-  { key: "description", width: "w-2/12" },
-  { key: "category", width: "w-2/12" },
-  { key: "transactionAmount", width: "w-2/12" },
-  { key: "transactionType", width: "w-1/12" },
+  { key: "pick", width: "w-[5%]", type: "checkbox" },
+  { key: "delete", width: "w-[5%]", type: "delete" },
+  { key: "transactionDate", width: "w-[15%]", type: "date" },
+  { key: "account", width: "w-2/12", type: "text" },
+  { key: "description", width: "w-2/12", type: "text" },
+  { key: "category", width: "w-2/12", type: "select-option" },
+  { key: "transactionAmount", width: "w-2/12", type: "number" },
+  { key: "transactionType", width: "w-1/12", type: "select-option" },
 ];
 
 const unEditableFields = ["pick", "delete"];
@@ -54,7 +54,7 @@ export const TransactionList = ({ index, transaction }) => {
       // key={transaction.id}
       className={`flex transition text-white ${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"}`}
     >
-      {tableColumns.map(({ key, width }) => {
+      {tableColumns.map(({ key, type, width }) => {
         const content = renderCell[key] ? renderCell[key](transaction, onDelete) : transaction[key];
 
         return (
@@ -66,7 +66,7 @@ export const TransactionList = ({ index, transaction }) => {
             content={content}
             data={transaction}
             path={transactionPath}
-            type={key === "transactionDate" ? "date" : key === "transactionAmount" ? "number" : "text"}
+            type={type}
           />
         );
       })}

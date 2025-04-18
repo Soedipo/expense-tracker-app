@@ -7,9 +7,9 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
     { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date" },
     { key: "account", width: "w-2/12", type: "text", placeholder: "Account" },
     { key: "description", width: "w-2/12", type: "text", placeholder: "Description" },
-    { key: "category", width: "w-2/12", type: "select-category" },
+    { key: "category", width: "w-2/12", type: "select-option" },
     { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount" },
-    { key: "transactionType", width: "w-1/12", type: "select-type" },
+    { key: "transactionType", width: "w-1/12", type: "select-option" },
   ];
 
   const renderField = {
@@ -21,7 +21,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
         onChange={(e) => onChange(key, type === "number" ? parseFloat(e.target.value) : e.target.value)}
       />
     ),
-    "select-category": ({ key }) => (
+    category: ({ key }) => (
       <select
         className="-ml-1 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
         value={formState[key]}
@@ -37,7 +37,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
         ))}
       </select>
     ),
-    "select-type": ({ key }) => (
+    transactionType: ({ key }) => (
       <select
         className={`p-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
           formState[key] === "income" ? "text-green-700" : "text-red-700"
@@ -60,7 +60,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
 
         {formFields.map(({ key, width, type, placeholder }) => (
           <div key={key} className={`flex ${width} px-4 py-2 border-b`}>
-            {(renderField[type] || renderField["default"])({ key, type, placeholder })}
+            {(renderField[key] || renderField["default"])({ key, type, placeholder })}
           </div>
         ))}
       </div>

@@ -133,7 +133,7 @@ export const Transaction = () => {
               <h3 className="text-xl font-semibold text-zinc-300">Transaction List</h3>
               <button
                 className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition flex items-center gap-2"
-                onClick={!showTransactionForm ? onAddTransaction : false}
+                onClick={!showTransactionForm ? onAddTransaction : undefined}
               >
                 <FontAwesomeIcon icon={faAdd} />
                 <span className="text-zinc-300"> Add Transaction</span>

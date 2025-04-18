@@ -10,14 +10,17 @@ export const Input = ({ id, type = "text", placeholder, value, onChange, options
     case "date":
       return <input id={id} type={type} placeholder={placeholder} value={value} onChange={onChange} {...props} />;
     case "select-option":
+      if (options.length === 0) {
+        return console.warn("No options provided for select input.");
+      }
       return (
         <select id={id} value={value} onChange={onChange} {...props}>
           <option value="" disabled>
             Select Option
           </option>
           {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+            <option key={option.value ?? option} value={option.value ?? option}>
+              {option.label ?? option}
             </option>
           ))}
         </select>

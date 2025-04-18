@@ -3,7 +3,7 @@ import { useFirebaseUpdateDoc } from "../hooks/firebaseHooks";
 import { useClickAway } from "@uidotdev/usehooks";
 import { Input } from "./Input";
 
-export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, path, type = "string" }) => {
+export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, path, type = "string", options = [] }) => {
   const { firebaseUpdateDoc } = useFirebaseUpdateDoc();
   const [inputValue, setInputValue] = useState(content);
   const [isEditing, setIsEditing] = useState(false);
@@ -70,6 +70,7 @@ export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, p
             ref={ref}
             type={type}
             value={inputValue}
+            options={options}
             onChange={(e) => handleInputChange(e)}
             onBlur={() => setIsEditing(false)}
           />

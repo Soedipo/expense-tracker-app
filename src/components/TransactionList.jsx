@@ -1,6 +1,7 @@
+import { useFirebaseDeleteDoc } from "../hooks/firebaseHooks";
+import { useGetCategories } from "../hooks/firebaseHooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useFirebaseDeleteDoc } from "../hooks/firebaseHooks";
 import { InlineEdit } from "./InlineEdit";
 
 const tableColumns = [
@@ -42,6 +43,12 @@ const renderCell = {
 export const TransactionList = ({ index, transaction }) => {
   const { firebaseDeleteDoc } = useFirebaseDeleteDoc();
 
+  const transactionType = ["income", "expense"];
+  const categories = useGetCategories().categories.map((category) => ({
+    label: category.name,
+    value: category.name,
+  }));
+
   const onDelete = (id) => (e) => {
     e.preventDefault();
     firebaseDeleteDoc(id, transactionPath)
@@ -67,6 +74,7 @@ export const TransactionList = ({ index, transaction }) => {
             data={transaction}
             path={transactionPath}
             type={type}
+            options={key === "category" ? categories : key === "transactionType" ? transactionType : []}
           />
         );
       })}

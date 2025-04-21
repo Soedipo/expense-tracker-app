@@ -10,6 +10,7 @@ export const useAddTransaction = () => {
     // const { description, account, transactionAmount, category, transactionType, transactionDate } = transactionData;
     const transactionToBeAdded = {
       ...transactionData,
+      transactionAmount: parseFloat(transactionData.transactionAmount),
       userID,
     };
 

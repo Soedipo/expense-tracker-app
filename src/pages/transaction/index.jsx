@@ -61,7 +61,7 @@ export const Transaction = () => {
   const [formState, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (field, value) => {
-    value = value.toString();
+    value = field === "transactionAmount" ? value.toString() : value;
     dispatch({ type: "SET_FIELD", field, value });
   };
 

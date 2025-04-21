@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { useFirebaseUpdateDoc } from "../hooks/firebaseHooks";
 import { useClickAway } from "@uidotdev/usehooks";
+import { useSanitize } from "../hooks/useSanitize";
 import { Input } from "./Input";
 
-export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, path, type = "string", options = [] }) => {
+export const InlineEdit = ({
+  fieldKey,
+  unEditableFields,
+  width,
+  content,
+  data,
+  path,
+  type = "string",
+  options = [],
+}) => {
   const { firebaseUpdateDoc } = useFirebaseUpdateDoc();
+  const { trimLeadingZeros } = useSanitize();
   const id = data.id;
   const prevValue = data[fieldKey];
   const [inputValue, setInputValue] = useState(prevValue);
@@ -17,21 +28,20 @@ export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, p
         return;
       }
 
-      firebaseUpdateDoc(path, id, { [fieldKey]: inputValue });
+      firebaseUpdateDoc(path, id, { [fieldKey]: type === "number" ? parseFloat(inputValue) : inputValue })
+        .then(() => {
+          setIsEditing(false);
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+          setInputValue(prevValue); // Reset to previous value on error
+        });
       setIsEditing(false);
     }
   });
 
   // const enter = useKeypress("Enter");
   // const esc = useKeypress("Escape");
-
-  // // check to see if the user clicked outside of this component
-  // useOnClickOutside(wrapperRef, () => {
-  //   if (isInputActive) {
-  //     onSetText(inputValue);
-  //     setIsInputActive(false);
-  //   }
-  // });
 
   // const onEnter = useCallback(() => {
   //   if (enter) {
@@ -54,7 +64,8 @@ export const InlineEdit = ({ fieldKey, unEditableFields, width, content, data, p
   };
 
   const handleInputChange = (e) => {
-    setInputValue(type === "number" ? parseFloat(e.target.value || 0) : e.target.value);
+    const value = type === "number" ? e.target.value.toString() : e.target.value;
+    setInputValue(type === "number" ? trimLeadingZeros(value) || 0 : e.target.value);
   };
 
   //   const handleCancelClick = () => {

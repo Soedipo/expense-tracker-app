@@ -1,7 +1,6 @@
 import { useState, useReducer } from "react";
 import { useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
 import { useAddTransaction } from "../../hooks/transactionHooks";
-import { useTrimLeadingZeros } from "../hooks/useTrimLeadingZeros";
 
 import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
@@ -21,8 +20,6 @@ export const Transaction = () => {
   const { categories } = useGetCategories();
   const [showTransactionForm, setShowTransactionForm] = useState(false);
   const [order, setOrder] = useState("desc");
-
-  const trim = useTrimLeadingZeros;
   
   const sortTransactionsByDate = (transactions, order = "asc") => {
     return [...transactions].sort((a, b) => {
@@ -64,8 +61,7 @@ export const Transaction = () => {
   const [formState, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (field, value) => {
-    // Trim leading zeros for transactionAmount
-    if (field === "transactionAmount") value = trim(value);
+    value = value.toString();
     dispatch({ type: "SET_FIELD", field, value });
   };
 

@@ -1,19 +1,10 @@
 import { useFirebaseDeleteDoc } from "../hooks/firebaseHooks";
-import { useGetCategories } from "../hooks/firebaseHooks";
+import { transactionFields } from "../constants/transactions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { InlineEdit } from "./InlineEdit";
 
-const tableColumns = [
-  { key: "pick", width: "w-[5%]", type: "checkbox" },
-  { key: "delete", width: "w-[5%]", type: "delete" },
-  { key: "transactionDate", width: "w-[15%]", type: "date" },
-  { key: "account", width: "w-2/12", type: "text" },
-  { key: "description", width: "w-2/12", type: "text" },
-  { key: "category", width: "w-2/12", type: "select-option" },
-  { key: "transactionAmount", width: "w-2/12", type: "number" },
-  { key: "transactionType", width: "w-1/12", type: "select-option" },
-];
+const tableFields = transactionFields.filter(field => field.showInTable);
 
 const unEditableFields = ["pick", "delete"];
 const transactionPath = "transactions";
@@ -61,7 +52,7 @@ export const TransactionList = ({ index, transaction, categories }) => {
       // key={transaction.id}
       className={`flex transition text-white ${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-700"}`}
     >
-      {tableColumns.map(({ key, type, width }) => {
+      {tableFields.map(({ key, type, width }) => {
         const content = renderCell[key] ? renderCell[key](transaction, onDelete) : transaction[key];
 
         return (

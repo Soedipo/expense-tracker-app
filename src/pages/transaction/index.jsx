@@ -5,27 +5,31 @@ import { useAddTransaction } from "../../hooks/transactionHooks";
 import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
 import { TransactionForm } from "../../components/TransactionForm";
+import { transactionFields } from "../../constants/transactions";
 import { TableColumn } from "../../components/TableColumn";
 import { AmountCard } from "../../components/AmountCard";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 
-const tableColumns = [
-  { title: "", sortKey: "pick", width: "w-[5%]" },
-  { title: "", sortKey: "delete", width: "w-[5%]" },
-  { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
-  { title: "Account", sortKey: "account", width: "w-2/12" },
-  { title: "Description", sortKey: "description", width: "w-2/12" },
-  { title: "Category", sortKey: "category", width: "w-2/12" },
-  { title: "Amount", sortKey: "transactionAmount", width: "w-2/12" },
-  { title: "Type", sortKey: "transactionType", width: "w-1/12" },
-  // {
-  //   title: "Power Usage",
-  //   sortKey: "powerUsage",
-  //   sortBy: (v) => ["LOW", "MEDIUM", "HIGH"].indexOf(v.powerUsage),
-  // },
-];
+
+const tableColumns = transactionFields.filter((field) => field.showInTable);
+
+// const tableColumns = [
+//   { title: "", sortKey: "pick", width: "w-[5%]" },
+//   { title: "", sortKey: "delete", width: "w-[5%]" },
+//   { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
+//   { title: "Account", sortKey: "account", width: "w-2/12" },
+//   { title: "Description", sortKey: "description", width: "w-2/12" },
+//   { title: "Category", sortKey: "category", width: "w-2/12" },
+//   { title: "Amount", sortKey: "transactionAmount", width: "w-2/12" },
+//   { title: "Type", sortKey: "transactionType", width: "w-1/12" },
+//   // {
+//   //   title: "Power Usage",
+//   //   sortKey: "powerUsage",
+//   //   sortBy: (v) => ["LOW", "MEDIUM", "HIGH"].indexOf(v.powerUsage),
+//   // },
+// ];
 
 export const Transaction = () => {
   const { addTransaction } = useAddTransaction();

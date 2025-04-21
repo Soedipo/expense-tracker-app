@@ -1,4 +1,5 @@
 import { Input } from "./Input";
+import { transactionFields } from "../constants/transactions";
 
 export const TransactionForm = ({ formState, handlers, categories }) => {
   const { onChange, onSubmit, onAddTransaction } = handlers;
@@ -9,14 +10,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
     value: name,
   }));
 
-  const formFields = [
-    { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date", required: true },
-    { key: "account", width: "w-2/12", type: "text", placeholder: "Account", required: true },
-    { key: "description", width: "w-2/12", type: "text", placeholder: "Description", required: true },
-    { key: "category", width: "w-2/12", type: "select-option", required: true },
-    { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount", required: true },
-    { key: "transactionType", width: "w-1/12", type: "select-option", required: true },
-  ];
+  const formFields = transactionFields.filter(field => field.showInForm);
 
   const renderField = {
     default: ({ key, type, placeholder, required }) => (

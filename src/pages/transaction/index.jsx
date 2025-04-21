@@ -1,6 +1,7 @@
 import { useState, useReducer } from "react";
 import { useGetTransactions, useGetCategories } from "../../hooks/firebaseHooks";
 import { useAddTransaction } from "../../hooks/transactionHooks";
+import { useTrimLeadingZeros } from "../hooks/useTrimLeadingZeros";
 
 import { SideNav } from "../../components/SideNav";
 import { TransactionList } from "../../components/TransactionList";
@@ -12,24 +13,7 @@ import { AmountCard } from "../../components/AmountCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 
-
 const tableColumns = transactionFields.filter((field) => field.showInTable);
-
-// const tableColumns = [
-//   { title: "", sortKey: "pick", width: "w-[5%]" },
-//   { title: "", sortKey: "delete", width: "w-[5%]" },
-//   { title: "Date", sortKey: "transactionDate", width: "w-[15%]" },
-//   { title: "Account", sortKey: "account", width: "w-2/12" },
-//   { title: "Description", sortKey: "description", width: "w-2/12" },
-//   { title: "Category", sortKey: "category", width: "w-2/12" },
-//   { title: "Amount", sortKey: "transactionAmount", width: "w-2/12" },
-//   { title: "Type", sortKey: "transactionType", width: "w-1/12" },
-//   // {
-//   //   title: "Power Usage",
-//   //   sortKey: "powerUsage",
-//   //   sortBy: (v) => ["LOW", "MEDIUM", "HIGH"].indexOf(v.powerUsage),
-//   // },
-// ];
 
 export const Transaction = () => {
   const { addTransaction } = useAddTransaction();
@@ -38,6 +22,8 @@ export const Transaction = () => {
   const [showTransactionForm, setShowTransactionForm] = useState(false);
   const [order, setOrder] = useState("desc");
 
+  const trim = useTrimLeadingZeros;
+  
   const sortTransactionsByDate = (transactions, order = "asc") => {
     return [...transactions].sort((a, b) => {
       const dateA = new Date(a.transactionDate);
@@ -78,6 +64,8 @@ export const Transaction = () => {
   const [formState, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (field, value) => {
+    // Trim leading zeros for transactionAmount
+    if (field === "transactionAmount") value = trim(value);
     dispatch({ type: "SET_FIELD", field, value });
   };
 
@@ -158,7 +146,12 @@ export const Transaction = () => {
 
                   {/* Transaction List */}
                   {transactions.map((transaction, index) => (
-                    <TransactionList key={transaction.id} index={index} transaction={transaction} categories={categories} />
+                    <TransactionList
+                      key={transaction.id}
+                      index={index}
+                      transaction={transaction}
+                      categories={categories}
+                    />
                   ))}
                 </div>
               </div>

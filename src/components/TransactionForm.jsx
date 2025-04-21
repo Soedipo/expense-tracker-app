@@ -11,14 +11,14 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
     { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount" },
     { key: "transactionType", width: "w-1/12", type: "select-option" },
   ];
-
+  
   const renderField = {
     default: ({ key, type, placeholder }) => (
       <Input
         type={type}
         placeholder={placeholder}
         value={formState[key]}
-        onChange={(e) => onChange(key, type === "number" ? parseFloat(e.target.value) : e.target.value)}
+        onChange={(e) => onChange(key, type === "number" ? parseFloat(e.target.value || 0) : e.target.value)}
       />
     ),
     category: ({ key }) => (

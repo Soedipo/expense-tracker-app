@@ -3,51 +3,49 @@ import { Input } from "./Input";
 export const TransactionForm = ({ formState, handlers, categories }) => {
   const { onChange, onSubmit, onAddTransaction } = handlers;
 
+  const transactionTypeOptions = ["income", "expense"];
+  const categoryOptions = categories.map(({ name }) => ({
+    label: name,
+    value: name,
+  }));
+
   const formFields = [
-    { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date" },
-    { key: "account", width: "w-2/12", type: "text", placeholder: "Account" },
-    { key: "description", width: "w-2/12", type: "text", placeholder: "Description" },
-    { key: "category", width: "w-2/12", type: "select-option" },
-    { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount" },
-    { key: "transactionType", width: "w-1/12", type: "select-option" },
+    { key: "transactionDate", width: "w-[15%]", type: "date", placeholder: "Date", required: true },
+    { key: "account", width: "w-2/12", type: "text", placeholder: "Account", required: true },
+    { key: "description", width: "w-2/12", type: "text", placeholder: "Description", required: true },
+    { key: "category", width: "w-2/12", type: "select-option", required: true },
+    { key: "transactionAmount", width: "w-2/12", type: "number", placeholder: "Amount", required: true },
+    { key: "transactionType", width: "w-1/12", type: "select-option", required: true },
   ];
-  
+
   const renderField = {
-    default: ({ key, type, placeholder }) => (
+    default: ({ key, type, placeholder, required }) => (
       <Input
         type={type}
         placeholder={placeholder}
         value={formState[key]}
         onChange={(e) => onChange(key, type === "number" ? parseFloat(e.target.value || 0) : e.target.value)}
+        step={type === "number" ? "any" : undefined}
+        required={required}
       />
     ),
-    category: ({ key }) => (
-      <select
-        className="-ml-1 border border-zinc-700 rounded w-full bg-zinc-700 text-white placeholder-gray-400"
+    category: ({ key, type, required }) => (
+      <Input
+        type={type}
         value={formState[key]}
+        options={categoryOptions}
         onChange={(e) => onChange(key, e.target.value)}
-      >
-        <option value="" disabled>
-          Select Category
-        </option>
-        {categories.map((category) => (
-          <option key={category.name} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+        required={required}
+      />
     ),
-    transactionType: ({ key }) => (
-      <select
-        className={`p-1 border border-zinc-700 rounded w-full bg-zinc-700 ${
-          formState[key] === "income" ? "text-green-700" : "text-red-700"
-        } text-white placeholder-gray-400`}
+    transactionType: ({ key, type, required }) => (
+      <Input
+        type={type}
         value={formState[key]}
+        options={transactionTypeOptions}
         onChange={(e) => onChange(key, e.target.value)}
-      >
-        <option value="expense">Expense</option>
-        <option value="income">Income</option>
-      </select>
+        required={required}
+      />
     ),
   };
 
@@ -58,11 +56,13 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
         <div className="w-[5%] px-4 py-2 border-b"></div>
         <div className="w-[5%] px-4 py-2 border-b"></div>
 
-        {formFields.map(({ key, width, type, placeholder }) => (
-          <div key={key} className={`flex ${width} px-4 py-2 border-b`}>
-            {(renderField[key] || renderField["default"])({ key, type, placeholder })}
-          </div>
-        ))}
+        {formFields
+          .filter(({ key }) => key !== "pick" && key !== "delete")
+          .map(({ key, width, type, placeholder, required }) => (
+            <div key={key} className={`flex ${width} px-4 py-2 border-b`}>
+              {(renderField[key] || renderField["default"])({ key, type, placeholder, required })}
+            </div>
+          ))}
       </div>
 
       {/* Action buttons */}

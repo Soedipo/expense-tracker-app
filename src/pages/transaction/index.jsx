@@ -154,7 +154,7 @@ export const Transaction = () => {
 
                   {/* Transaction List */}
                   {transactions.map((transaction, index) => (
-                    <TransactionList key={transaction.id} index={index} transaction={transaction} />
+                    <TransactionList key={transaction.id} index={index} transaction={transaction} categories={categories} />
                   ))}
                 </div>
               </div>

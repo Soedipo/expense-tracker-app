@@ -40,13 +40,13 @@ const renderCell = {
   ),
 };
 
-export const TransactionList = ({ index, transaction }) => {
+export const TransactionList = ({ index, transaction, categories }) => {
   const { firebaseDeleteDoc } = useFirebaseDeleteDoc();
 
-  const transactionType = ["income", "expense"];
-  const categories = useGetCategories().categories.map((category) => ({
-    label: category.name,
-    value: category.name,
+  const transactionTypeOptions = ["income", "expense"];
+  const categoryOptions = categories.map(({ name }) => ({
+    label: name,
+    value: name,
   }));
 
   const onDelete = (id) => (e) => {
@@ -74,7 +74,7 @@ export const TransactionList = ({ index, transaction }) => {
             data={transaction}
             path={transactionPath}
             type={type}
-            options={key === "category" ? categories : key === "transactionType" ? transactionType : []}
+            options={key === "category" ? categoryOptions : key === "transactionType" ? transactionTypeOptions : []}
           />
         );
       })}

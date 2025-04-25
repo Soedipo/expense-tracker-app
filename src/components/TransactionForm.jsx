@@ -10,7 +10,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
     value: name,
   }));
 
-  const formFields = transactionFields.filter(field => field.showInForm);
+  const formFields = transactionFields.filter((field) => field.showInForm);
 
   const renderField = {
     default: ({ key, type, placeholder, required }) => (
@@ -48,7 +48,6 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
       <div className="flex text-white">
         {/* empty cells for pick & modify */}
         <div className="w-[5%] px-4 py-2 border-b"></div>
-        <div className="w-[5%] px-4 py-2 border-b"></div>
 
         {formFields
           .filter(({ key }) => key !== "pick" && key !== "delete")
@@ -57,6 +56,7 @@ export const TransactionForm = ({ formState, handlers, categories }) => {
               {(renderField[key] || renderField["default"])({ key, type, placeholder, required })}
             </div>
           ))}
+        <div className="w-[5%] px-4 py-2 border-b"></div>
       </div>
 
       {/* Action buttons */}
